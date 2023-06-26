@@ -1,8 +1,8 @@
 # eth-storage-scraper.py
 
-The Ethereum JSON-RPC protocol can only be used to query the storage of a contract at a given index (using `eth_getStorageAt`). In particulat, there is no method to get every index with non-empty storage value.
+The Ethereum JSON-RPC protocol can only be used to query the storage of a contract at a given slot (using `eth_getStorageAt`). In particular, there is no method to get every slot with non-empty storage value.
 
-This small Python scipt solves this particular issue by repeatedly calling `eth_getProof` in order to compute the storage trie of an Ethereum account at a given block.
+This small Python script solves this particular issue by repeatedly calling `eth_getProof` in order to compute the storage trie of an Ethereum account at a given block.
 
 It can be used as a CLI
 
@@ -46,3 +46,16 @@ def getStorageTrie(address, block, precomputation, w3):
         storage (dict): Dictionary mapping keys to values. Satisfies `trie = HexaryTrie(storage)`.
     """
 ```
+
+## Example on the _Uniswap: Universal Router_
+
+```bash
+$ python eth-storage-scraper.py 0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD  -b 17562051 -u RPC_URL
+Slot     Key (None if preimage not found)        Value
+290decd9548b62a8d60345a988386fc84ba6bc95484008f6362f93160ef3e563         0       0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+b10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf6         1       0x01
+```
+
+## Warning
+
+This script will take a very long time on accounts with a lot of non-empty storage slots (e.g. token contracts).

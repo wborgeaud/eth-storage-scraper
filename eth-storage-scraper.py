@@ -160,7 +160,8 @@ def main():
     for a in storage:
         slot = a.hex()
         key = precomputation.get(slot)
-        print(f"{slot} \t {key} \t {storage[a].hex()}")
+        value = decode(storage[a]).hex()
+        print(f"{slot} \t {key} \t {value}")
 
 
 if __name__ == "__main__":
